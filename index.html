@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Kubectl-cloudflow</title>
+
+		<link rel="stylesheet" href="node_modules/reveal.js/dist/reset.css">
+		<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css">
+		<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/moon.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/monokai.css" id="highlight-theme">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Scala per applicazioni da riga di comando? Si' grazie!
+            <!-- ## Programmi da riga di comando in Scala? Perche' no! -->
+
+            <img class="cloudflow-icon" style="width: 120px;" src="./imgs/cloudflow-icon-full-color-flush.svg">
+          </textarea>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Chi sono
+
+              <img style="height: 240px;" src="./imgs/again.png">
+              <br>
+
+              - [andreaTP]() su GitHub
+              - [@and_prf]() su Twitter
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              <img style="height: 240px;" src="./imgs/Flag_of_Portugal.svg.png">
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              <img style="height: 500px;" src="./imgs/Belem-Tower.jpeg">
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              <img style="height: 240px;" src="./imgs/dog.png">
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Ieni-strello
+
+              <img style="height: 240px;" src="./imgs/ineistrello.png">
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Programmazione
+
+              <img style="height: 120px;" src="./imgs/scala-spiral.png">
+              <img style="height: 120px;" src="./imgs/akka_full_color.svg">
+              <img style="height: 100px;" src="./imgs/sbt-logo.svg">
+              <br>
+              <img style="height: 60px;" src="./imgs/graalvm-logo.svg">
+              <img style="height: 120px;" src="./imgs/k8s-logo.png">
+              <img style="height: 120px;" src="./imgs/crystal.png">
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Prerequisiti
+
+              <img style="height: 120px;" src="./imgs/cloudflow-reverse.svg">
+              <br>
+
+              [Cloudflow.io](http://cloudflow.io/docs/current/index.html)
+
+              TODO: Aggiungere piu' slide su Cloudflow per spiegarlo meglio
+
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Kubectl
+
+              [Writing-kubectl-plugins](https://kubernetes.io/docs/tasks/extend-kubectl/kubectl-plugins/#writing-kubectl-plugins)
+            </textarea>
+          </section>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Perche' riscrivere?
+
+            - eliminare bachi (e.g. HOCON parsing) <!-- .element: class="fragment" data-fragment-index="1" -->
+            - migliorare l'ergonomia <!-- .element: class="fragment" data-fragment-index="2" -->
+            - ri-usare codice al massimo (in tutti i componenti e in Scala) <!-- .element: class="fragment" data-fragment-index="3" -->
+            - ridurre la manutenzione (con ottime librerie Scala) <!-- .element: class="fragment" data-fragment-index="4" -->
+          </textarea>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Lo stack
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Binari nativi - GraalVM
+  
+              - Compilatore JIT<!-- .element: class="fragment" data-fragment-index="1" -->
+              - Truffle per implementare linguaggi dinamici<!-- .element: class="fragment" data-fragment-index="2" -->
+              - SubstrateVM con AOT<!-- .element: class="fragment" data-fragment-index="3" -->
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Fabric8 kubernetes-client
+
+              - usato in produzione (Red Hat)<!-- .element: class="fragment" data-fragment-index="1" -->
+              - API tipata per CR<!-- .element: class="fragment" data-fragment-index="2" -->
+              - Jackson :-(<!-- .element: class="fragment" data-fragment-index="3" -->
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Riga di comando - Scopt
+
+              ```scala
+              cmd("deploy")
+                .action((_, o) => o.copy(command = Some(commands.Deploy())))
+                .text("deploy a cloudflow applications from a cr file")
+                .children(
+                  commandParse[commands.Deploy, File](arg("<crFile>"))((c, v) => c.copy(crFile = v))
+                    .required()
+                    .text("the CR file of the cloudflow application"),
+                  commandParse[commands.Deploy, String](opt('u', "username"))((c, v) => c.copy(dockerUsername = v))
+                    .optional()
+                    .text("the docker registry username"),
+                ...
+              ```
+            </textarea>
+          </section>
+        </section>
+
+        <!-- Steal this slide: https://speakerdeck.com/evacchi/the-call-of-ctooling-the-secrets-behind-native-image-building?slide=19 -->
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Why?
+
+              - remove bugs (e.g. HOCON parsing) <!-- .element: class="fragment" data-fragment-index="1" -->
+              - improve user experience (more principled) <!-- .element: class="fragment" data-fragment-index="2" -->
+              - code re-use (in operator and it tests) <!-- .element: class="fragment" data-fragment-index="3" -->
+              - maintainability (using Scala libraries) <!-- .element: class="fragment" data-fragment-index="4" -->
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## How?
+
+              - Scala <!-- .element: class="fragment" data-fragment-index="1" -->
+              - Typesafe config <!-- .element: class="fragment" data-fragment-index="2" -->
+              - Pureconfig <!-- .element: class="fragment" data-fragment-index="3" -->
+              - Fabric8 kubernetes client <!-- .element: class="fragment" data-fragment-index="4" -->
+              - GraalVM <!-- .element: class="fragment" data-fragment-index="5" -->
+          </textarea>
+        </section>
+
+			</div>
+		</div>
+
+		<script src="node_modules/reveal.js/dist/reveal.js"></script>
+		<script src="node_modules/reveal.js/plugin/notes/notes.js"></script>
+		<script src="node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+		<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+		<script>
+      // import Reveal from 'reveal.js';
+      // import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
+
+      let deck = new Reveal({
+        plugins: [ RevealMarkdown, RevealHighlight ]
+      })
+      deck.initialize();
+		</script>
+	</body>
+</html>
