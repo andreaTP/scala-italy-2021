@@ -12,6 +12,8 @@
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/monokai.css" id="highlight-theme">
+
+    <link rel="icon" type="image/png" href="./imgs/favicon.ico">
 	</head>
 	<body>
 		<div class="reveal">
@@ -135,6 +137,13 @@
           </section>
           <section data-markdown>
             <textarea data-template>
+              ### monitoring
+
+              <img style="height: 400px;" src="./imgs/monitoring-cloudflow.png">
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
               ### kubectl-plugin:
 
               ```bash
@@ -188,7 +197,7 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-              ## Binari nativi - GraalVM
+              ## 1- Binari nativi - GraalVM
   
               - Compilatore JIT<!-- .element: class="fragment" data-fragment-index="1" -->
               - Truffle per implementare linguaggi dinamici<!-- .element: class="fragment" data-fragment-index="2" -->
@@ -197,7 +206,7 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-              ## Fabric8 kubernetes-client
+              ## 2- Fabric8 kubernetes-client
 
               - usato in produzione (Red Hat)<!-- .element: class="fragment" data-fragment-index="1" -->
               - API con tipi per CR<!-- .element: class="fragment" data-fragment-index="2" -->
@@ -206,7 +215,7 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-              ## Riga di comando - Scopt
+              ## 3- Riga di comando - Scopt
 
               ```scala
               cmd("deploy")
@@ -225,7 +234,7 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-              ## Typesafe Config
+              ## 4- Typesafe Config
 
               ```json
               cloudflow.streamlets.my-streamlet {
@@ -244,7 +253,7 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-              ## Pureconfig
+              ## 5- Pureconfig
 
               - case classes<!-- .element: class="fragment" data-fragment-index="1" -->
               - validation<!-- .element: class="fragment" data-fragment-index="2" -->
@@ -255,14 +264,14 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-              ## Airframe Log
+              ## 6- Airframe Log
 
               <img style="height: 450px;" class="fragment" data-fragment-index="1" src="./imgs/debugging.gif">
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
-              ## Airframe Log
+              ## 6- Airframe Log
 
               <img style="height: 450px;" class="fragment" data-fragment-index="1" src="./imgs/airframe2.png">
             </textarea>
@@ -278,21 +287,21 @@
           </section>
           <section data-markdown>
             <textarea data-template>
-              ### cross compilazione
+              ### 1- cross compilazione
 
               - GH Actions (Linux, Darwin, Win)<!-- .element: class="fragment" data-fragment-index="1" -->
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
-              ### binari veramente statici
+              ### 2- binari veramente statici
 
               - musl <!-- .element: class="fragment" data-fragment-index="1" -->
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
-              ### configurazione
+              ### 3- configurazione
 
               - main alternativo con configurazione assistita<!-- .element: class="fragment" data-fragment-index="1" -->
             </textarea>
